@@ -14,33 +14,26 @@ let autenticado = false;
 let username, password = undefined;
 
 let reportesLista = [];
-let usuariosLista = []
+let usuariosLista = [{
+  "username": "admin",
+  "password": "admin",
+}];
 
-const compruebaDatosUsuario = async (username, password) => {
-  const datos = await cargarUsuarios();
-  return datos.find(user => user.username == username && user.password == password)
+const compruebaDatosUsuario = (username, password) => {
+  return usuariosLista.find(user => user.username == username && user.password == password)
 }
 
-const compruebaUsuarioExiste = async (username) => {
-  const datos = await cargarUsuarios();
-  const user = datos.find(user => user.username == username);
+const compruebaUsuarioExiste = (username) => {
+  const user = usuariosLista.find(user => user.username == username);
 
   if (!user) {
-    return [datos, false];
+    return [usuariosLista, false];
   }
-  return [datos, true];
+  return [usuariosLista, true];
 }
 
 const cargarReportes = () => {
-  // const data = fs.readFileSync(path.join(__dirname, 'public/data/reportes.json'));
-  // return JSON.parse(reportesLista);
   return reportesLista;
-}
-
-const cargarUsuarios = async () => {
-  // const data = fs.readFileSync(path.join(__dirname, 'public/data/usuarios.json'));
-  // return JSON.parse(usuariosLista);
-  return usuariosLista;
 }
 
 app.get('/login', (req, res) => {
@@ -73,7 +66,6 @@ app.post('/register', async (req, res) => {
   if (!usuarioExiste) {
     usuarios.push({ username, password });
     usuariosLista = usuarios;
-    // fs.writeFileSync(path.join(__dirname, 'public/data/usuarios.json'), JSON.stringify(usuarios))
     res.sendFile(path.join(__dirname, 'public/views/login.html'));
   } else {
     res.redirect('/register?e=' + encodeURIComponent('El usuario ya existe'));
@@ -85,20 +77,18 @@ app.get('/reportes', (req, res) => {
     res.redirect('/login')
   } else {
     // Renderizamos la vista con todos los reportes.
-    // const issues = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/data/reportes.json')));
     const issues = reportesLista;
     res.render(path.join(__dirname, 'public/views/reportes.ejs'), { issues: issues, username: username });
   }
 })
 
-app.post('/reportes', async (req, res) => {
+app.post('/reportes', (req, res) => {
   const admin = req.body.admin;
   const reporteId = req.body.issueId;
   const comentario = req.body.comentario;
   const reporteAbrir = req.body.issueAbrir;
 
-  const issues = await cargarReportes();
-  const issue = issues.find(issue => issue.id == parseInt(reporteId));
+  const issue = reportesLista.find(issue => issue.id == parseInt(reporteId));
 
   if (admin === "true" && reporteAbrir === "true") {
     issue.estado = "abierto"
@@ -113,8 +103,7 @@ app.post('/reportes', async (req, res) => {
     }
     issue.mensajes.push(nuevoComentrio);
   }
-  // fs.writeFileSync(path.join(__dirname, 'public/data/reportes.json'), JSON.stringify(issues))
-  reportesLista = issues;
+
   res.redirect('/reportes');
 })
 
@@ -122,15 +111,13 @@ app.get('/crear-reporte', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/views/crear-reporte.html'));
 })
 
-app.post('/crear-reporte', async (req, res) => {
+app.post('/crear-reporte', (req, res) => {
   const { descripcionError, fechaDeteccion } = req.body;
-
-  const issues = await cargarReportes();
 
   let ultimoId, ultimoIssue
 
-  if (issues.length > 0) {
-    ultimoIssue = issues[issues.length - 1];
+  if (reportesLista.length > 0) {
+    ultimoIssue = reportesLista[reportesLista.length - 1];
     ultimoId = ultimoIssue.id;
   } else {
     ultimoId = 0;
@@ -145,13 +132,9 @@ app.post('/crear-reporte', async (req, res) => {
     "estado": 'abierto',
     "mensajes": []
   };
-  issues.push(nuevoReporte)
-  reportesLista = issues;
-  // fs.writeFileSync(path.join(__dirname, 'public/data/reportes.json'), JSON.stringify(issues))
+  reportesLista.push(nuevoReporte)
 
   res.redirect('/reportes');
 })
 
-app.listen(port, () => {
-  console.log('Escuchando en el puerto ' + port);
-})
+app.listen(port);

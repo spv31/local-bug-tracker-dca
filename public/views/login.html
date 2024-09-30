@@ -16,7 +16,7 @@
       margin: 0;
     }
 
-    .login-form {
+    .formulario-login {
       background-color: #fff;
       padding: 20px;
       border-radius: 8px;
@@ -24,13 +24,13 @@
       width: 300px;
     }
 
-    .login-form h2 {
+    .formulario-login h2 {
       margin-bottom: 20px;
       text-align: center;
     }
 
-    .login-form input[type="text"],
-    .login-form input[type="password"] {
+    .formulario-login input[type="text"],
+    .formulario-login input[type="password"] {
       width: 96%;
       padding: 10px 5px;
       margin: 10px 0px;
@@ -39,7 +39,7 @@
       border-radius: 4px;
     }
 
-    .login-form button {
+    .formulario-login button {
       width: 100%;
       margin-top: 10px;
       padding: 10px;
@@ -50,14 +50,14 @@
       cursor: pointer;
     }
 
-    .login-form button:hover {
+    .formulario-login button:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
 
 <body>
-  <div class="login-form">
+  <div class="formulario-login">
     <h2>Iniciar Sesión</h2>
     <form id="login-form" action="/login" method="POST">
       <label for="username">Nombre de usuario:</label>
@@ -66,7 +66,7 @@
       <input type="password" id="password" name="password" placeholder="Introduce tu contraseña" required>
       <button type="submit">Iniciar sesión</button>
     </form>
-    <p id="error-message" style="color: red; text-align: center;"></p>
+    <p id="mensaje-error" style="color: red; text-align: center;"></p>
 
   </div>
   <script>
@@ -74,7 +74,7 @@
     const errorMessage = urlParams.get('e');
 
     if (errorMessage) {
-      document.getElementById('error-message').textContent = decodeURIComponent(errorMessage);
+      document.getElementById('mensaje-error').textContent = decodeURIComponent(errorMessage);
     }
   </script>
 </body>
