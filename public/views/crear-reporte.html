@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear nuevo reporte</title>
+  <link rel="stylesheet" href="/css/estilos.css">
+  <style>
+    /* Estilos básicos para el formulario */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      color: #555;
+      margin-top: 10px;
+      display: block;
+    }
+
+    input[type="date"],
+    textarea {
+      width: 97%;
+      padding: 10px 5px;
+      margin: 10px 0px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="form-container">
+    <h1>Crear nuevo reporte</h1>
+
+    <form action="/crear-reporte" method="POST">
+
+      <label for="descripcionError">Descripción detallada del error</label>
+      <textarea id="descripcionError" name="descripcionError" rows="4" placeholder="Describe el error..."
+        required></textarea>
+
+      <label for="fechaDeteccion">Fecha de detección del error</label>
+      <input type="date" id="fechaDeteccion" name="fechaDeteccion" placeholder="DD/MM/AAAA" required>
+
+      <button type="submit">Crear Reporte</button>
+    </form>
+  </div>
+
+</body>
+
+</html>
