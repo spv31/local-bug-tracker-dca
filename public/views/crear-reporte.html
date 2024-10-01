@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crear nuevo reporte</title>
   <style>
-    /* Estilos básicos para el formulario */
     body {
       font-family: Arial, sans-serif;
       background-color: #f9f9f9;
@@ -40,6 +39,8 @@
     }
 
     input[type="date"],
+    input[type="text"],
+    select,
     textarea {
       width: 97%;
       padding: 10px 5px;
@@ -73,12 +74,23 @@
 
     <form action="/crear-reporte" method="POST">
 
+      <label for="tituloError">Título del error</label>
+      <input type="text" id="tituloError" name="tituloError" placeholder="Título breve del error" required>
+
       <label for="descripcionError">Descripción detallada del error</label>
       <textarea id="descripcionError" name="descripcionError" rows="4" placeholder="Describe el error..."
         required></textarea>
 
       <label for="fechaDeteccion">Fecha de detección del error</label>
       <input type="date" id="fechaDeteccion" name="fechaDeteccion" placeholder="DD/MM/AAAA" required>
+
+      <label for="gravedad">Nivel de Gravedad</label>
+      <select id="gravedad" name="gravedad" required>
+        <option value="bajo">Bajo</option>
+        <option value="medio">Medio</option>
+        <option value="alto">Alto</option>
+        <option value="critico">Crítico</option>
+      </select>
 
       <button type="submit">Crear Reporte</button>
     </form>

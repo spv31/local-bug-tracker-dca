@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 
 const app = express();
 const port = 3000;
@@ -30,10 +29,6 @@ const compruebaUsuarioExiste = (username) => {
     return [usuariosLista, false];
   }
   return [usuariosLista, true];
-}
-
-const cargarReportes = () => {
-  return reportesLista;
 }
 
 app.get('/login', (req, res) => {
@@ -112,7 +107,7 @@ app.get('/crear-reporte', (req, res) => {
 })
 
 app.post('/crear-reporte', (req, res) => {
-  const { descripcionError, fechaDeteccion } = req.body;
+  const { tituloError, descripcionError, fechaDeteccion, gravedad } = req.body;
 
   let ultimoId, ultimoIssue
 
@@ -126,9 +121,11 @@ app.post('/crear-reporte', (req, res) => {
   const nuevoReporte = {
     "id": ultimoId + 1,
     "autor": username,
+    "tituloError": tituloError,
     "descripcionError": descripcionError,
     "fechaDeteccion": fechaDeteccion,
     "fechaApertura": new Date().toISOString().split('T')[0],
+    "gravedad": gravedad,
     "estado": 'abierto',
     "mensajes": []
   };

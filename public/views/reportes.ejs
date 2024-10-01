@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/estilos.css">
   <title>Listado de Reportes</title>
   <style>
     body {
@@ -141,6 +142,7 @@
     }
   </style>
 </head>
+
 <body>
   <h1>Listado de Reportes</h1>
   <a href="/crear-reporte" class="new-issue-btn">Crear nuevo reporte</a>
@@ -157,12 +159,20 @@
         </div>
 
         <p class="details">
-          <strong>Descripción:</strong>
-          <%= issue.descripcionError %><br>
-            <strong>Fecha de Detección:</strong>
-            <%= issue.fechaDeteccion %><br>
-              <strong>Fecha de Apertura:</strong>
-              <%= issue.fechaApertura %><br>
+          <strong>Título del error:</strong>
+          <%= issue.tituloError %><br>
+
+            <strong>Descripción:</strong>
+            <%= issue.descripcionError %><br>
+
+              <strong>Nivel de Gravedad:</strong>
+              <%= issue.gravedad %><br>
+
+                <strong>Fecha de Detección:</strong>
+                <%= issue.fechaDeteccion %><br>
+
+                  <strong>Fecha de Apertura:</strong>
+                  <%= issue.fechaApertura %><br>
         </p>
 
         <div class="comments">
@@ -182,6 +192,7 @@
               <input type="text" name="comentario" placeholder="Añadir comentario..." required>
               <button id="comentar" type="submit">Comentar</button>
             </form>
+
             <% if (username==='admin' ) { %>
               <div class="action-buttons">
                 <form action="/reportes" method="POST">
@@ -202,6 +213,7 @@
               </form>
             </div>
             <% } %>
+
       </div>
       <% }) %>
   </div>
