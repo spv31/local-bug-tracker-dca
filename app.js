@@ -39,7 +39,7 @@ app.post('/login', async (req, res) => {
   username = req.body.username;
   password = req.body.password;
 
-  const usuarioCorrecto = await compruebaDatosUsuario(username, password);
+  const usuarioCorrecto = compruebaDatosUsuario(username, password);
 
   if (usuarioCorrecto) {
     autenticado = true;
@@ -56,7 +56,7 @@ app.get('/register', (req, res) => {
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
-  const [usuarios, usuarioExiste] = await compruebaUsuarioExiste(username);
+  const [usuarios, usuarioExiste] = compruebaUsuarioExiste(username);
 
   if (!usuarioExiste) {
     usuarios.push({ username, password });
@@ -102,8 +102,22 @@ app.post('/reportes', (req, res) => {
   res.redirect('/reportes');
 })
 
+app.post('/logout', (req, res) => {
+  if (autenticado) {
+    username = undefined;
+    password = undefined;
+    autenticado = false;
+
+    res.redirect('/login');
+  }
+})
+
 app.get('/crear-reporte', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/views/crear-reporte.html'));
+  if (!autenticado) {
+    res.redirect('/login')
+  } else {
+    res.sendFile(path.join(__dirname, 'public/views/crear-reporte.html'));
+  }
 })
 
 app.post('/crear-reporte', (req, res) => {
